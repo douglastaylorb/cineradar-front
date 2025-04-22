@@ -45,6 +45,11 @@ export const useMediaStore = defineStore('media', {
       loading: false,
       error: null
     },
+    currentProviders: {
+      loading: false,
+      error: null,
+      data: null,
+    },
     searchQuery: '',
   }),
 
@@ -218,5 +223,31 @@ export const useMediaStore = defineStore('media', {
         this.currentMedia.loading = false;
       }
     },
+    async getTVProviders(id) {
+      this.currentProviders.loading = true;
+      this.currentProviders.error = null;
+      this.currentProviders.data = null;
+      try {
+        const response = await api.getTVProviders(id);
+        this.currentProviders.data = response.data;
+      } catch (error) {
+        this.currentProviders.error = error.message || 'Failed to get TV providers';
+      } finally {
+        this.currentProviders.loading = false;
+      }
+    },
+    async getMovieProviders(id) {
+      this.currentProviders.loading = true;
+      this.currentProviders.error = null;
+      this.currentProviders.data = null;
+      try {
+        const response = await api.getMovieProviders(id);
+        this.currentProviders.data = response.data;
+      } catch (error) {
+        this.currentProviders.error = error.message || 'Failed to get movie providers';
+      } finally {
+        this.currentProviders.loading = false;
+      }
+    }
   },
 });

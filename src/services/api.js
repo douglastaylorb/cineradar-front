@@ -39,6 +39,9 @@ export default {
     return api.get('/movies/discover', { params: filters });
   },
 
+  getMovieProviders(id) {
+    return api.get(`/movies/${id}/providers`);
+  },
   // Séries
   searchTV(query, page = 1) {
     return api.get(`/tv/search?query=${query}&page=${page}`);
@@ -62,5 +65,9 @@ export default {
   
   getSimilarTV(id) {
     return api.get(`/tv/${id}/similar`);
+  },
+
+  getTVProviders(id) {
+    return api.get(`/tv/${id}/providers`);
   }
 };
