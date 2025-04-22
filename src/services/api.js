@@ -22,6 +22,23 @@ export default {
   getTrendingMovies(page = 1) {
     return api.get(`/movies/trending?page=${page}`);
   },
+
+  getMovieDetails(id) {
+    return api.get(`/movies/${id}`);
+  },
+
+  getMovieCredits(id) {
+    return api.get(`/movies/${id}/credits`);
+  },
+
+  getSimilarMovies(id) {
+    return api.get(`/movies/${id}/similar`);
+  },
+
+  getDiscoverMovies(filters = {}) {
+    return api.get('/movies/discover', { params: filters });
+  },
+
   // Séries
   searchTV(query, page = 1) {
     return api.get(`/tv/search?query=${query}&page=${page}`);
@@ -34,25 +51,13 @@ export default {
   getTrendingTV(page = 1) {
     return api.get(`/tv/trending?page=${page}`);
   },
-
-  getMovieDetails(id) {
-    return api.get(`/movies/${id}`);
-  },
   
   getTVDetails(id) {
     return api.get(`/tv/${id}`);
   },
   
-  getMovieCredits(id) {
-    return api.get(`/movies/${id}/credits`);
-  },
-  
   getTVCredits(id) {
     return api.get(`/tv/${id}/credits`);
-  },
-  
-  getSimilarMovies(id) {
-    return api.get(`/movies/${id}/similar`);
   },
   
   getSimilarTV(id) {

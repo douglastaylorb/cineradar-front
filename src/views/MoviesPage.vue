@@ -20,27 +20,42 @@
   </template>
   
   <script setup>
-  import { onMounted } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { useMediaStore } from '../stores/mediaStore';
   import FilterBar from '../components/common/FilterBar.vue';
   import MediaGrid from '../components/media/MediaGrid.vue';
   
   const moviesStore = useMediaStore();
+  const currentFilters = ref({
+    sort: 'popularity.desc',
+    genre: '',
+    year: '',
+    rating: ''
+  });
   
   const handleFilterChange = (filters) => {
-    console.log('Filters changed:', filters);
-    // Na implementação real, você enviaria esses filtros para a API
-    // Por enquanto, apenas recarregamos os filmes populares
-    moviesStore.getPopularMovies();
+    currentFilters.value = filters;
+    moviesStore.discoverMovies({
+      with_genres: filters.genre,
+      primary_release_year: filters.year,
+      sort_by: filters.sort,
+      vote_average_gte: filters.rating
+    });
   };
   
   const handlePageChange = (page) => {
-    moviesStore.getPopularMovies(page);
-    // Scroll to top
+    moviesStore.discoverMovies({
+      with_genres: currentFilters.value.genre,
+      primary_release_year: currentFilters.value.year,
+      sort_by: currentFilters.value.sort,
+      vote_average_gte: currentFilters.value.rating
+    }, page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
   onMounted(() => {
-    moviesStore.getPopularMovies();
+    moviesStore.discoverMovies({
+      sort_by: currentFilters.value.sort
+    });
   });
   </script>

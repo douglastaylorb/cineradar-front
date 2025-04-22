@@ -118,6 +118,22 @@ export const useMediaStore = defineStore('media', {
       }
     },
 
+    async discoverMovies(filters = {}, page = 1) {
+      this.movies.loading = true;
+      try {
+        const response = await api.getDiscoverMovies({ ...filters, page });
+        this.movies.results = response.data.results;
+        this.movies.page = response.data.page;
+        this.movies.totalPages = response.data.total_pages;
+        this.movies.error = null;
+      } catch (error) {
+        this.movies.error = error.message || 'Erro ao buscar filmes filtrados';
+        console.error('Erro ao buscar filmes filtrados:', error);
+      } finally {
+        this.movies.loading = false;
+      }
+    },
+
     async searchTV(query, page = 1) {
       this.tvShows.loading = true;
       this.searchQuery = query;

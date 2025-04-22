@@ -79,6 +79,20 @@
               <h2 class="text-white text-2xl font-bold mb-4">Sinopse</h2>
               <p class="text-gray-300">{{ media.overview || 'Nenhuma sinopse disponível.' }}</p>
             </section>
+
+            <!-- Trailer -->
+            <section v-if="media.videos && media.videos.results.length > 0" class="mb-12">
+              <h2 class="text-white text-2xl font-bold mb-4">Trailer</h2>
+              <div class="aspect-video">
+                <iframe 
+                  :src="trailerUrl" 
+                  frameborder="0" 
+                  allowfullscreen
+                  class="w-full h-full"
+                ></iframe>
+              </div>
+            </section>
+
             
             <!-- Cast -->
             <section v-if="cast && cast.length > 0" class="mb-12">
@@ -227,14 +241,15 @@
   const route = useRoute();
   const router = useRouter();
   const mediaStore = useMediaStore();
-  
+
   const type = computed(() => route.params.type);
   const id = computed(() => Number(route.params.id));
   
   const media = computed(() => mediaStore.currentMedia.details);
   const cast = computed(() => mediaStore.currentMedia.credits?.cast || []);
   const similarMedia = computed(() => mediaStore.currentMedia.similar || []);
-  
+  const trailerUrl = ref(null);
+
   const mediaTitle = computed(() => {
     if (!media.value) return '';
     return type.value === 'movie' ? media.value.title : media.value.name;
@@ -286,10 +301,22 @@
   const loadMediaDetails = async () => {
     if (type.value && id.value) {
       await mediaStore.getMediaDetails(type.value, id.value);
+      await getTrailer();
       
       // Scroll to top when loaded
       window.scrollTo({ top: 0, behavior: 'auto' });
     }
+  };
+
+  const getTrailer = async () => {
+    if (media.value && media.value.videos && media.value.videos.results.length > 0) {
+      const trailer = media.value.videos.results.find(video => video.type === 'Trailer');
+      if (trailer) {
+        trailerUrl.value = `https://www.youtube.com/embed/${trailer.key}`;
+        return trailerUrl.value;
+      }
+    }
+    return null;
   };
   
   onMounted(() => {
