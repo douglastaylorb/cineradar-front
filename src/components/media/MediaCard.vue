@@ -39,7 +39,6 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
 
 const props = defineProps({
   id: {
@@ -52,7 +51,7 @@ const props = defineProps({
   },
   overview: {
     type: String,
-    default: 'No overview available'
+    default: 'Não disponível'
   },
   posterPath: {
     type: String,
@@ -60,7 +59,7 @@ const props = defineProps({
   },
   releaseDate: {
     type: String,
-    default: 'Unknown'
+    default: 'Não disponível'
   },
   voteAverage: {
     type: Number,

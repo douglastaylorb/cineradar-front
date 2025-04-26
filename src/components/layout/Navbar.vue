@@ -3,7 +3,8 @@
     <div class="container mx-auto px-4">
       <!-- Desktop Layout -->
       <div class="hidden md:flex justify-between items-center">
-        <router-link to="/" class="text-white text-2xl font-bold">
+        <router-link to="/" class="text-white text-2xl font-bold flex">
+          <img src="/logo.webp" alt="Logo" class="h-8 mr-2 inline-block" />
           CineRadar
         </router-link>
         
@@ -40,7 +41,7 @@
       <!-- Mobile Layout -->
       <div class="flex md:hidden justify-between items-center">
         <router-link to="/" class="text-white text-xl font-bold">
-          CineRadar
+          <img src="/logo.webp" alt="Logo" class="h-12 mr-2 inline-block" />
         </router-link>
         
         <div class="flex items-center space-x-3">
